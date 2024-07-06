@@ -1,0 +1,29 @@
+
+pub fun check_root(): Null {
+    unsafe {
+        if $id -u$ != "0" {
+            echo "You need to be root to run this script"
+            $exit 1$
+        }
+    }
+}
+
+pub fun check_release(): Bool {
+
+    let supported_releases = [ "Ubuntu", "Debian" ]
+
+    unsafe {
+        $source /etc/os-release$
+        let name = $echo \$NAME$
+
+        loop index, release in supported_releases {
+            if name == release {
+                return true
+            }
+        }
+
+        echo "Unsupported release: {name}"
+        $exit 1$
+        return false // This line actually never gets executed
+    }
+}

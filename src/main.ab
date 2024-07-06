@@ -1,0 +1,12 @@
+import { check_root, check_release } from "./utils/common.ab"
+import { words } from "std"
+
+check_root()
+
+check_release()
+
+let args = words("$*")
+
+loop arg in args {
+    echo arg
+}
