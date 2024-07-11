@@ -1,0 +1,23 @@
+// let TERM_WIDTH = unsafe silent $tput cols$
+
+
+pub fun error(message: Text): Null {
+
+    let time = unsafe $date +"%T"$
+    message = "[{time}] \\033[31m{message}\\033[0m"
+    unsafe $echo -e {message}$
+}
+
+pub fun info(message: Text): Null {
+
+    let time = unsafe $date +"%T"$
+    message = "[{time}] \\033[32m{message}\\033[0m"
+    unsafe $echo -e {message}$
+}
+
+pub fun warning(message: Text): Null {
+
+    let time = unsafe $date +"%T"$
+    message = "[{time}] \\033[33m{message}\\033[0m"
+    unsafe $echo -e {message}$
+}

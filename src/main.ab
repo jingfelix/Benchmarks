@@ -1,12 +1,20 @@
-import { check_root, check_release } from "./utils/common.ab"
-import { words } from "std"
-
-check_root()
-
-check_release()
+import { exit, words } from "std"
+import { error, info } from "./utils/logger.ab"
+import { run_kernel_compile } from "./compile_kernel.ab"
 
 let args = words("$*")
+let arg_count = "$n" // TODO: count of args
+let command = args[0]
 
-loop arg in args {
-    echo arg
+info("This script is still under development")
+
+if {
+    command == "kernel" {
+        info("Running kernel compile test...")
+        run_kernel_compile()
+    }
+    else {
+        error("Unsupported command: {command}")
+        exit(1)
+    }
 }

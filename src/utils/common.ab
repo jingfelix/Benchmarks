@@ -1,20 +1,22 @@
+import { exit, shell_var_get } from "std"
 
-pub fun check_root(): Null {
-    unsafe {
-        if $id -u$ != "0" {
-            echo "You need to be root to run this script"
-            $exit 1$
-        }
-    }
-}
+// There is one is_root function in the std module :(
+// pub fun check_root(): Null {
+//     unsafe {
+//         if $id -u$ != "0" {
+//             echo "You need to be root to run this script"
+//             $exit 1$
+//         }
+//     }
+// }
 
-pub fun check_release(): Bool {
+pub fun check_release(supported_releases: [ Text ]): Bool {
 
-    let supported_releases = [ "Ubuntu", "Debian" ]
+    // let supported_releases = [ "Ubuntu", "Debian" ]
 
     unsafe {
         $source /etc/os-release$
-        let name = $echo \$NAME$
+        let name = shell_var_get("NAME")
 
         loop index, release in supported_releases {
             if name == release {
@@ -23,7 +25,7 @@ pub fun check_release(): Bool {
         }
 
         echo "Unsupported release: {name}"
-        $exit 1$
+        exit(1)
         return false // This line actually never gets executed
     }
 }

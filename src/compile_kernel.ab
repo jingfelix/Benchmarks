@@ -1,0 +1,31 @@
+import { exit, is_root } from "std"
+import { check_release } from "./utils/common.ab"
+import { info, warning, error } from "./utils/logger.ab"
+
+fun prepare_kernel_compile() {
+    info("Preparing kernel compilation")
+
+    check_release([ "Ubuntu", "Debian" ])
+
+    // Check packages
+    // sudo apt install bc binutils bison dwarves flex gcc git gnupg2 gzip libelf-dev libncurses5-dev libssl-dev make openssl pahole perl-base rsync tar xz-utils
+    let packages = [ "bc", "binutils", "bison", "dwarves", "flex", "gcc", "git", "gnupg2", "gzip", "libelf-dev", "libncurses5-dev", "libssl-dev", "make", "openssl", "pahole", "perl-base", "rsync", "tar", "xz-utils" ]
+
+    silent $apt install {packages}$ failed {
+        error("Failed to install packages: {status}")
+        exit(status)
+    }
+
+    // Download kernel source
+}
+
+pub fun run_kernel_compile() {
+    if is_root() == false {
+        error("You need to be root to run this script")
+        exit(1)
+    }
+
+    prepare_kernel_compile()
+
+    info("Running kernel compilation")
+}
